@@ -1,5 +1,4 @@
 import { xhr_get } from '../../../util/xhr';
-import { getCookie } from '../../../util/cookies';
 
 export default {
     data() {
