@@ -130,9 +130,9 @@
 
 </template>
 
-<script lang="ts" src="./data-service.ts"></script>
+<script lang="ts" src="../data-service/data-service.ts"></script>
 
-<style lang="less" scoped src="./data-service.less"></style>
+<style lang="less" scoped src="../data-service/data-service.less"></style>
 <style lang="less">
 .http-method {
   padding: 0px 2px;

@@ -3,8 +3,7 @@
 </template>
 
 <script>
-import DataSource from "../components/data-service/datasource/datasource.vue";
-import DataService from "../components/data-service2/data-service.vue";
+import DataService from "../components/data-service/data-service.vue";
 // import DataServiceIndex from "../components/data-service/index/index.vue";
 import { setBaseQueryString } from "../util/xhr";
 
@@ -75,15 +74,11 @@ window.addEventListener("message", function (event) {
 
 export default {
   components: {
-    DataSource,
-    DataService,
+    DataService
   },
   data() {
     return {
-      apiRoot: window.config.dsApiRoot,
-      listId: 0,
-      listTitle: "",
-      SHOW_MOUDLE: SHOW_MOUDLE,
+
     };
   },
 

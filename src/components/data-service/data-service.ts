@@ -3,7 +3,7 @@ import tips from "../widget/tips.vue";
 import tableSelector from "../widget/table-selector.vue";
 import info from "./info.vue";
 import Datasource from "../widget/data-source/data-source.vue";
-import { isDev } from '../../util/utils';
+import { isDebug } from '@ajaxjs/ui/dist/util/utils';
 import { xhr_get, xhr_post, xhr_put, xhr_del } from '../../util/xhr';
 
 // 新建 tab 的 index
@@ -266,7 +266,7 @@ export default {
             else
                 project = current.parentNode;
 
-            let prefix: string = isDev() ? project.apiPrefixDev : project.apiPrefixProd;
+            let prefix: string = isDebug() ? project.apiPrefixDev : project.apiPrefixProd;
 
             return prefix;
         },

@@ -10,22 +10,22 @@
   </div>
 </template>
 <script>
-import { copyToClipboard } from "../../util/utils";
+import { copyToClipboard } from '@ajaxjs/ui/dist/util/utils';
 
 export default {
   props: {
     page: {
       type: Boolean,
-      require: false,
+      require: false
     },
     apiPrefix: {
       type: String,
-      require: false,
-    },
+      require: false
+    }
   },
   data() {
     return {
-      httpMethod: this.$parent.editorData.type,
+      httpMethod: this.$parent.editorData.type
     };
   },
   methods: {
@@ -36,10 +36,9 @@ export default {
         // debugger;
       if (data.parentNode.apiPrefixDev) {
         // project node
-      } else {
+      } else 
         url = data.parentNode.data.namespace + "/" + url;
-      }
-
+      
       url = this.apiPrefix + url;
 
       if (this.page) url += "/page";
@@ -75,8 +74,8 @@ export default {
         case "delete":
           return "DELETE";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

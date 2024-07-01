@@ -6,7 +6,6 @@
 
 <script>
 import { xhr_get } from '../../util/xhr';
-import { isDebug } from '../../util/utils';
 
 export default {
   data() {

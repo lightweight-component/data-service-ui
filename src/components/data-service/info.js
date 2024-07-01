@@ -9,9 +9,8 @@ import 'codemirror/theme/monokai.css'// 编辑的主题文件
 import 'codemirror/theme/base16-light.css'
 import './code-prettify';
 import tips from "../widget/tips.vue";
-import api from "./api.vue";
-import { copyToClipboard } from '../../util/utils';
-import { isDev } from '../../util/utils';
+import api from "./api";
+import { copyToClipboard } from '@ajaxjs/ui/dist/util/utils';
 import { formatSql } from './format-sql.js';
 
 export default {

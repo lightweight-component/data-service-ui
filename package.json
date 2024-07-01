@@ -4,10 +4,10 @@
   "description": "Data Service UI",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.bingosoft.net/cloudappgroup/helper-web.git"
+    "url": "git+https://github.com/lightweight-component/data-service-ui.git"
   },
   "bugs": {
-    "url": "https://gitlab.bingosoft.net/cloudappgroup/helper-web/issues"
+    "url": "https://github.com/lightweight-component/data-service-ui/issues"
   },
   "main": "dist/index.js",
   "types": "dist/libs/common.d.ts",
@@ -23,7 +23,8 @@
     "dist/"
   ],
   "dependencies": {
-    "vue-codemirror": "^4.0.6"
+    "vue-codemirror": "^4.0.6",
+    "@ajaxjs/ui": "1.1.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

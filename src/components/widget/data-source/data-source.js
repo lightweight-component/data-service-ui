@@ -1,9 +1,8 @@
-const DBType = { 'MY_SQL': 'MySQL', 'ORACLE': 'Oracle', 'SQL_SERVER': 'Sql Server', 'SPARK': 'Spark', 'SQLITE': 'SQLite', DB2: 'DB2' };
+import { xhr_get } from '../../../util/xhr';
 
+const DBType = { 'MY_SQL': 'MySQL', 'ORACLE': 'Oracle', 'SQL_SERVER': 'Sql Server', 'SPARK': 'Spark', 'SQLITE': 'SQLite', DB2: 'DB2' };
 const DATASOURCE_API = window.API_ROOT ? API_ROOT + '/data_service/datasource' : '../../data_service/datasource';
 const DATA_SERVICE_API = window.API_ROOT ? API_ROOT + '/data_service/admin' : '../../data_service/admin';
-
-import { xhr_get, xhr_post, getPageList } from '../../../util/xhr';
 
 export default {
 	data() {
@@ -84,10 +83,8 @@ export default {
 		},
 		test() {
 			xhr_get(`${window.config.dsApiRoot}/datasource/test/` + this.activedItem, j => {
-				if (j.status === 1) 
-					this.$Modal.success({
-						title: '连接数据源成功',
-					});
+				if (j.status === 1)
+					this.$Modal.success({ title: '连接数据源成功' });
 			});
 		}
 	}

@@ -39,7 +39,6 @@ import 'codemirror/addon/edit/closebrackets.js';
 import 'codemirror/theme/base16-light.css';
 import 'codemirror/addon/display/autorefresh'
 
-
 export default {
   components: { ApiSelector, codemirror },
   props: {

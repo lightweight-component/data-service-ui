@@ -1,5 +1,5 @@
 import { xhr_get, xhr_del } from '../../util/xhr';
-import { isDev } from '../../util/utils';
+import { isDebug } from '@ajaxjs/ui/dist/util/utils';
 
 export default {
     data() {
@@ -94,7 +94,7 @@ export default {
 
             this.project.name = project.name;
 
-            return isDev() ? project.apiPrefixDev : project.apiPrefixProd;
+            return isDebug() ? project.apiPrefixDev : project.apiPrefixProd;
         },
 
         refreshTree() {
@@ -121,7 +121,7 @@ export default {
                             render: renderProjectTreeNode
                         };
 
-                        this.loadTreeProejct(isDev() ? project.apiPrefixDev : project.apiPrefixProd, projectTreeNode)
+                        this.loadTreeProejct(isDebug() ? project.apiPrefixDev : project.apiPrefixProd, projectTreeNode)
 
                         data.push(projectTreeNode);
                     });
