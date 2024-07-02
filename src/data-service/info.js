@@ -8,7 +8,7 @@ import 'codemirror/addon/edit/closebrackets.js'
 import 'codemirror/theme/monokai.css'// 编辑的主题文件
 import 'codemirror/theme/base16-light.css'
 import './code-prettify';
-import tips from "../widget/tips.vue";
+import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
 import api from "./api";
 import { copyToClipboard } from '@ajaxjs/util/dist/util/utils';
 import { formatSql } from './format-sql.js';

@@ -1,10 +1,10 @@
 import tree from "./tree";
-import tips from "../widget/tips.vue";
-import tableSelector from "../widget/table-selector.vue";
+import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
+import tableSelector from "../components/widget/table-selector.vue";
 import info from "./info.vue";
-import Datasource from "../widget/data-source/data-source.vue";
+import Datasource from "../components/widget/data-source/data-source.vue";
 import { isDebug } from '@ajaxjs/util/dist/util/utils';
-import { xhr_get, xhr_post, xhr_put, xhr_del } from '../../util/xhr';
+import { xhr_get, xhr_post, xhr_put, xhr_del } from '@ajaxjs/util/dist/util/xhr';
 
 // 新建 tab 的 index
 let NEW_TAB: number = 1;

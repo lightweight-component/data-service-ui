@@ -1,4 +1,4 @@
-import { xhr_get } from '../../../util/xhr';
+import { xhr_get } from '@ajaxjs/util/dist/util/xhr';
 
 const DBType = { 'MY_SQL': 'MySQL', 'ORACLE': 'Oracle', 'SQL_SERVER': 'Sql Server', 'SPARK': 'Spark', 'SQLITE': 'SQLite', DB2: 'DB2' };
 const DATASOURCE_API = window.API_ROOT ? API_ROOT + '/data_service/datasource' : '../../data_service/datasource';

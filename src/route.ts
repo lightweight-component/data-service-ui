@@ -8,15 +8,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "about" */ './pages/index.vue'),
-
-  },
-  {
-    path: '/api-helper',
-    component: () => import('./components/api-helper/api-helper.vue')
+    component: () => import('./index.vue')
   }
 ];
 
-export default new VueRouter({
-  routes
-});
+export default new VueRouter({ routes });

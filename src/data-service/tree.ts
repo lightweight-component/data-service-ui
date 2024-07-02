@@ -1,4 +1,4 @@
-import { xhr_get, xhr_del } from '../../util/xhr';
+import { xhr_get, xhr_del } from '@ajaxjs/util/dist/util/xhr';
 import { isDebug } from '@ajaxjs/util/dist/util/utils';
 
 export default {

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { xhr_get, xhr_post, getPageList } from '../../util/xhr';
+import { xhr_get, xhr_post, getPageList } from '@ajaxjs/util/dist/util/xhr';
 
 // 选择表
 export default {

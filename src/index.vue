@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import DataService from "../components/data-service/data-service.vue";
+import DataService from "./data-service/data-service.vue";
 // import DataServiceIndex from "../components/data-service/index/index.vue";
-import { setBaseQueryString } from "../util/xhr";
+import { setBaseQueryString } from '@ajaxjs/util/dist/util/xhr';
 
 function getQueryParam(variable, isParent) {
   var query = (isParent ? parent.location : window.location).search.substring(
@@ -22,8 +22,7 @@ function getQueryParam(variable, isParent) {
   return false;
 }
 
-window.loginUrl =
-  "http://127.0.0.1:8088/base/user/login?web_url=http://localhost:8081";
+window.loginUrl = "http://127.0.0.1:8088/base/user/login?web_url=http://localhost:8081";
 const token = getQueryParam("token");
 let accessToken = localStorage.getItem("accessToken");
 
