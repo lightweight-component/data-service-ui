@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { copyToClipboard } from '@ajaxjs/ui/dist/util/utils';
+import { copyToClipboard } from '@ajaxjs/util/dist/util/utils';
 
 export default {
   props: {

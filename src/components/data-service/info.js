@@ -10,7 +10,7 @@ import 'codemirror/theme/base16-light.css'
 import './code-prettify';
 import tips from "../widget/tips.vue";
 import api from "./api";
-import { copyToClipboard } from '@ajaxjs/ui/dist/util/utils';
+import { copyToClipboard } from '@ajaxjs/util/dist/util/utils';
 import { formatSql } from './format-sql.js';
 
 export default {

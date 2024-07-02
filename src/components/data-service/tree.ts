@@ -1,5 +1,5 @@
 import { xhr_get, xhr_del } from '../../util/xhr';
-import { isDebug } from '@ajaxjs/ui/dist/util/utils';
+import { isDebug } from '@ajaxjs/util/dist/util/utils';
 
 export default {
     data() {
