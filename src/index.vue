@@ -100,6 +100,11 @@ export default {
 }
 
 html,
+body{
+  overflow: hidden;
+}
+
+html,
 body,
 .main > .ivu-menu {
   height: 100%;

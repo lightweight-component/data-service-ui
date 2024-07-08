@@ -10,7 +10,7 @@ import 'codemirror/theme/base16-light.css'
 import './code-prettify';
 import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
 import api from "./api";
-import { copyToClipboard } from '@ajaxjs/util/dist/util/utils';
+import { copyToClipboard , isDev} from '@ajaxjs/util/dist/util/utils';
 import { formatSql } from './format-sql.js';
 
 export default {
@@ -88,7 +88,7 @@ export default {
             else
                 obj = this.data.parentNode;
 
-            let url = isDev ? obj.apiPrefixDev : obj.apiPrefixProd;
+            let url = isDev() ? obj.apiPrefixDev : obj.apiPrefixProd;
 
             if (!url.endsWith("/")) url += "/";
             url += "common_api/";

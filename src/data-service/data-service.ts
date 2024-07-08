@@ -1,8 +1,8 @@
 import tree from "./tree";
 import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
-import tableSelector from "../components/widget/table-selector.vue";
+import tableSelector from "@ajaxjs/ui/dist/table-selector/table-selector.vue";
 import info from "./info.vue";
-import Datasource from "../components/widget/data-source/data-source.vue";
+import Datasource from "@ajaxjs/ui/dist/data-source/data-source.vue";
 import { isDebug } from '@ajaxjs/util/dist/util/utils';
 import { xhr_get, xhr_post, xhr_put, xhr_del } from '@ajaxjs/util/dist/util/xhr';
 
@@ -12,6 +12,9 @@ let NEW_TAB: number = 1;
 export default {
     mixins: [tree],
     components: { info, tips, tableSelector, Datasource },
+    props: {
+        enableDatasource: { type: Boolean , default: false}
+    },
     data() {
         return {
             isShowSelectTable: false,

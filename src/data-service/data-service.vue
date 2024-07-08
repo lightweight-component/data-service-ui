@@ -2,7 +2,11 @@
   <div class="data-service">
     <nav>
       <div style="float:right;">
-        数据源：<span>{{dataSource.name}}</span> | <a href="https://framework.ajaxjs.com" target="_blank">帮助</a> | <a @click="showAbout">关于</a>
+        <span v-if="enableDatasource">
+        数据源：<span>{{dataSource.name}}</span> |
+        </span>
+        
+         <a href="https://framework.ajaxjs.com" target="_blank">帮助</a> | <a @click="showAbout">关于</a>
       </div>
       <img src="~@/assets/icon.png" width="16" style="vertical-align: middle;" /> 数据服务 Data Service
     </nav>
@@ -29,7 +33,7 @@
               <span class="text">刷新配置</span>
             </div>
           </li>
-          <li style="float:right" @click="dataSource.isShowDataSource=true">
+          <li style="float:right" @click="dataSource.isShowDataSource=true" v-if="enableDatasource">
             <div>
               <div class="icon">
                 <Icon type="md-swap" size="25" style="color:blueviolet" />
