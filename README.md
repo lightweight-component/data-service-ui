@@ -22,7 +22,7 @@ DataService can still serve as an ORM mechanism, acting as a Data Access Object 
 
 Data services are not code generators. Rather, they abstract common CRUD tasks into a configurable rapid business development tool.
 
-[asset/ds.jpg](Main)
+![asset/ds.jpg](Main)
 
 Additional Points:
 
@@ -32,3 +32,7 @@ Additional Points:
 - They enable rapid prototyping and iterative development.
 
 Overall, data services offer a powerful and flexible approach to building data-driven applications in Java.
+
+
+# The Server Side
+This is Front-end code. For the server side, please visit: https://github.com/lightweight-component/aj-data.
