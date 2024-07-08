@@ -22,7 +22,8 @@ DataService can still serve as an ORM mechanism, acting as a Data Access Object 
 
 Data services are not code generators. Rather, they abstract common CRUD tasks into a configurable rapid business development tool.
 
-![asset/ds.jpg](Main)
+
+![Main](asset/ds.jpg)
 
 Additional Points:
 
