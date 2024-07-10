@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "vue-codemirror": "^4.0.6",
-    "@ajaxjs/ui": "1.2.6"
+    "@ajaxjs/ui": "1.2.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
