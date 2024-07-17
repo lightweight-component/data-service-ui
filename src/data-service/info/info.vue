@@ -192,6 +192,6 @@
   </div>
 </template>
 
-<script src="./info.js"></script>
+<script lang="ts" src="./info.ts"></script>
 
 <style lang="less" scoped src="./info.less"></style>

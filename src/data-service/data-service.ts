@@ -1,7 +1,10 @@
 import tree from "./tree";
 import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
 import tableSelector from "@ajaxjs/ui/dist/table-selector/table-selector.vue";
-import info from "./info.vue";
+import info from "./info/info.vue";
+// import user from "./user.vue";
+import user from "@ajaxjs/ui/dist/iam/user.vue";
+import project from "./project/project.vue";
 import Datasource from "@ajaxjs/ui/dist/data-source/data-source.vue";
 import { isDebug } from '@ajaxjs/util/dist/util/utils';
 import { xhr_get, xhr_post, xhr_put, xhr_del } from '@ajaxjs/util/dist/util/xhr';
@@ -11,9 +14,9 @@ let NEW_TAB: number = 1;
 
 export default {
     mixins: [tree],
-    components: { info, tips, tableSelector, Datasource },
+    components: { info, tips, tableSelector, Datasource, user, project },
     props: {
-        enableDatasource: { type: Boolean , default: false}
+        enableDatasource: { type: Boolean, default: false }
     },
     data() {
         return {
@@ -51,7 +54,7 @@ export default {
     },
     methods: {
         showAbout() {
-            this.$Modal.confirm({
+            this.$Modal.info({
                 title: '关于 DataService',
                 content: '<p>DataService：用数据库管理 SQL 语句，快捷生成 API 接口</p><p>Powered by MyBatis + AJAXJS Framework.</p><p>ver 2023.10.31</p>'
             });
@@ -59,9 +62,8 @@ export default {
         createService(): void {
             let prefix = this.getSelectedProject();
 
-            if (prefix) {
+            if (prefix)
                 this.createSelect = true;
-            }
         },
         refreshConfig() {
             let prefix = this.getSelectedProject();
@@ -78,8 +80,7 @@ export default {
                 return;
 
             let data: DS_TreeNode_Service = <DS_TreeNode_Service>_data;
-
-            let name = data.title + ' ' + data.id;
+            let name: string = data.title + ' ' + data.id;
             let hasTab = null;
 
             this.mainTabs.forEach(tab => {
@@ -93,12 +94,7 @@ export default {
             //     label = label.substring(0, 25) + '...';
 
             if (!hasTab)
-                this.mainTabs.push({
-                    label: label,
-                    name: name,
-                    closable: true,
-                    data: data
-                });
+                this.mainTabs.push({ label: label, name: name, closable: true, data: data });
 
             setTimeout(() => {
                 this.activeTab = name;
@@ -126,9 +122,7 @@ export default {
 
             let name: string = '新建服务-' + NEW_TAB++;
             this.mainTabs.push({
-                label: name,
-                name: name,
-                closable: true,
+                label: name, name: name, closable: true,
                 // @ts-ignore
                 data: data
             });
@@ -153,7 +147,7 @@ export default {
                 }
             }
         },
-        onTabClose(tabName: string) {
+        onTabClose(tabName: string): void {
             let index = -1;
 
             for (let i = 0; i < this.mainTabs.length; i++) {
@@ -172,7 +166,7 @@ export default {
                     this.activeTab = 'index';
             }
         },
-        changeDatasource(ds) {
+        changeDatasource(ds): void {
             this.dataSource.id = ds.id;
             this.dataSource.name = ds.name;
             this.dataSource.crossDb = ds.crossDb;
@@ -180,7 +174,7 @@ export default {
         },
 
         // 保存命令
-        saveDML() {
+        saveDML(): void {
             let current: DS_TreeNode_Service = this.activeTabData;
             let dml = Object.assign({}, current.data);
 
@@ -234,10 +228,8 @@ export default {
                             }
                         }
 
-
                         // iview tab 改名会导致 tab 内容消失，于是改为关闭了再打开
                         // this.onTabClose(this.activeTab);
-
                     } else
                         this.$Message.error(j.message);
                 }, dml);
@@ -294,7 +286,8 @@ export default {
                                 this.activeTab = 'index';
                                 this.activeTabData = null;
                                 this.refreshTree();
-                            }
+                            } else
+                                this.$Message.warning(j.message || '获取数据失败');
                         });
                     }
                 });

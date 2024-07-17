@@ -9,8 +9,8 @@ import 'codemirror/theme/monokai.css'// 编辑的主题文件
 import 'codemirror/theme/base16-light.css'
 import './code-prettify';
 import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
-import api from "./api";
-import { copyToClipboard , isDev} from '@ajaxjs/util/dist/util/utils';
+import api from "./api.vue";
+import { copyToClipboard, isDev } from '@ajaxjs/util/dist/util/utils';
 import { formatSql } from './format-sql.js';
 
 export default {
@@ -54,11 +54,11 @@ export default {
             },
         };
     },
-    mounted() {
+    mounted(): void {
         setTimeout(() => this.$refs.cm.refresh(), 500);// 加载codemirror编辑器必须点击一下代码才能正常显示并且代码向左偏移
     },
     methods: {
-        parentDir() {
+        parentDir(): void {
             let dir = this.data.id.split('/')[0];
 
             if (dir.indexOf(':') != -1) {
@@ -68,19 +68,21 @@ export default {
 
             return dir;
         },
-        togglePanel() {
+        togglePanel(): void {
             let config = this.$el.querySelector(".config");
-            if (config.style.height == "300px") config.style.height = "0";
+
+            if (config.style.height == "300px")
+                config.style.height = "0";
             else config.style.height = "300px";
         },
-        copySql() {
+        copySql(): void {
             copyToClipboard(this.editorData.sql);
             this.$Message.success("复制 SQL 代码成功");
         },
-        formatSql() {
-            this.editorData.sql = formatSql(this.editorData.sql);
+        formatSql(): void {
+            this.editorData.sql = formatSql(this.editorData.sql, null);
         },
-        getApiPrefix() {
+        getApiPrefix(): string {
             let obj;
 
             if (this.data.id.indexOf('/') != -1)
@@ -101,7 +103,7 @@ export default {
          * 
          * @param {String} type 
          */
-        setEditorData(type) {
+        setEditorData(type): void {
             this.editorData.type = type;
             let sql = this.currentData[type];
 
@@ -113,7 +115,7 @@ export default {
         }
     },
     watch: {
-        "editorData.isCustomSql"(v) {
+        "editorData.isCustomSql"(v): void {
             if (v) {
 
             } else {
@@ -123,13 +125,18 @@ export default {
             }
         },
         // 同步到 data
-        "editorData.sql"(v) {
+        "editorData.sql"(v): void {
             this.currentData[this.editorData.type] = this.editorData.sql;
         }
     },
 };
 
-function to(s) {
+/**
+ * 转义
+ * @param s 
+ * @returns 
+ */
+function to(s: string): string {
     if (s) {
         s = s.replace(/&/g, '&amp;');
         s = s.replace(/</g, '&lt;');

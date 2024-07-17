@@ -1,4 +1,22 @@
 /**
+ * 配置
+ */
+interface ConfigInterface {
+    /**DS
+     * DS
+     */
+    dsApiRoot: string;
+    IAM_ApiRoot: string;
+    loginUrl: string;
+    thisPageUrl: string;
+}
+
+// 声明 window.config 并为其指定类型
+declare const window: Window & {
+    config: ConfigInterface;
+};
+
+/**
  * 后端响应的消息
  */
 declare interface RepsonseResult {

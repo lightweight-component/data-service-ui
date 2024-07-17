@@ -1,56 +1,54 @@
 import { xhr_get, xhr_del } from '@ajaxjs/util/dist/util/xhr';
 import { isDebug } from '@ajaxjs/util/dist/util/utils';
 
+declare const window: Window & {
+    config: ConfigInterface;
+};
+
 export default {
     data() {
         return {
             treeData: [],
+            isProjectNode: false,
             project: {
                 name: '',
                 parentServiceName: '', // 如果选择了父服务节点，显示其名字
                 parentId: -1,
                 parentNode: null,
-                isShowEditProjectWin: false,
                 treeData: [
-
                 ],
-                form: {
-                    data: {
-                        name: 'sds'
-                    },
-                    rules: {
-                        name: [
-                            { required: true, message: '项目名称不能为空', trigger: 'blur' }
-                        ],
-                    }
-                }
             }
         };
     },
 
-    created() {
+    created(): void {
         this.refreshTree();
     },
     methods: {
-        handleContextMenuEdit() {
-            this.project.isShowEditProjectWin = true;
+        handleContextMenuEdit(): void {
+            this.$refs.project.update();
         },
 
-        handleContextMenuCreate() {
-            this.handleContextMenuEdit();
-            this.project.form.data = { name: '', content: '', id: null };
+        handleContextMenuCreate(): void {
+            this.$refs.project.create();
         },
-        handleContextMenu(data) {
-            this.project.form.data = data;
+        handleContextMenu(data): void {
+            if (!data.parentNode) {// it's a project
+                this.isProjectNode = true;
+                let { id, name, content, apiPrefixDev, apiPrefixProd, defaultConfig } = data.projectData;
+
+                this.$refs.project.$refs['editForm'].resetFields();
+                this.$refs.project.data = { id, name, content, apiPrefixDev, apiPrefixProd, defaultConfig };
+            } else
+                this.isProjectNode = false;
         },
 
-        handleContextMenuDelete() {
+        deleteDS(): void {
             this.$Modal.confirm({
                 title: '确定删除吗？',
-                content: `<p>删除<b>工程 ${this.project.form.data.name}</b> 以及其所有的<b>命令</b>？</p>`,
+                content: `<p>删除<b>工程 ${this.$refs.project.data.name}</b> 以及其所有的<b>命令</b>？</p>`,
                 onOk: () => {
-                    //@ts-ignore
-                    xhr_del(`${window.config.dsApiRoot}/admin/project/${this.project.form.data.id}`, (j: RepsonseResult) => {
+                    xhr_del(`${window.config.dsApiRoot}/admin/project/${this.$refs.project.data.id}`, (j: RepsonseResult) => {
                         if (j.status) {
                             this.$Message.info('删除成功');
                             this.loadTreeProejct();
@@ -64,7 +62,7 @@ export default {
          * 获取当前树选中的工程
          */
         getSelectedProject(): string {
-            let selectedNodes = this.$refs.treeCmp.getSelectedNodes();
+            let selectedNodes: any[] = this.$refs.treeCmp.getSelectedNodes();
 
             if (selectedNodes.length === 0) {
                 this.$Message.warning('请先选择一个树节点，<br >选择一个项目或者一个服务。');
@@ -97,15 +95,15 @@ export default {
             return isDebug() ? project.apiPrefixDev : project.apiPrefixProd;
         },
 
-        refreshTree() {
-            this.loadTreeData(null, data => {
-                this.treeData = data; // 更新根节点的数据
-            });
+        /**
+         * 更新根节点的数据
+         */
+        refreshTree(): void {
+            this.loadTreeData(null, data => this.treeData = data);
         },
 
         // 异步加载树数据
         loadTreeData(item: null, callback: Function): void {
-            // @ts-ignore
             xhr_get(`${window.config.dsApiRoot}/common_api/project/list`, (j: RepsonseResult) => {
                 if (j.status) {
                     let data: DS_TreeNode_Project[] = [];
@@ -181,19 +179,18 @@ export default {
                     projectTreeNode.children = data;
                 }
             });
-        },
-        saveProject() { }
+        }
     }
 };
 
-const renderProjectTreeNode = (h, { root, node, data }) => {
+const renderProjectTreeNode = (h: Function, { root, node, data }) => {
     return [
         h("span", { class: "http-method get" }, "P"),
         h("span", { style: 'font-weight:bold' }, data.title),
     ];
 };
 
-const renderCrudTreeNode = (h, { root, node, data }) => {
+const renderCrudTreeNode = (h: Function, { root, node, data }) => {
     if (data.data.type && 'SINGLE' === data.data.type)
         return [
             h("span", { class: "http-method put" }, 'S'),

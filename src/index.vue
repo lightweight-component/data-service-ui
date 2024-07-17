@@ -6,10 +6,7 @@
 import DataService from "./data-service/data-service.vue";
 import aj from '@ajaxjs/ui/dist/';
 
-const loginUrl = 'http://127.0.0.1:8088/base/user/login';
-const thisPageUrl = 'http://localhost:8080';
-
-aj.IAM.getLoginInfo(loginUrl, thisPageUrl);
+aj.IAM.getLoginInfo(window.config.loginUrl, window.config.thisPageUrl);
 
 export default {
   components: {
