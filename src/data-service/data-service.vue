@@ -2,7 +2,9 @@
   <div class="data-service">
     <nav>
       <div style="float:right;">
+        <user /> | 
         <span v-if="enableDatasource">
+
         数据源：<span>{{dataSource.name}}</span> |
         </span>
         
@@ -15,14 +17,25 @@
         <div class="search-panel ">
           <i-Input suffix="ios-search" placeholder="搜索数据服务……" style="width: 90%" />
         </div>
-        <Tree ref="treeCmp" :data="treeData" :load-data="loadTreeData" style="height: 93%;overflow-y: auto;margin-left: 10px;" @on-contextmenu="handleContextMenu" @on-select-change="openTab">
+        <Tree ref="treeCmp" :data="treeData" :load-data="loadTreeData" style="height: 93%;overflow-y: auto;margin-left: 10px;" 
+          @on-contextmenu="handleContextMenu" @on-select-change="openTab">
           <template slot="contextMenu">
-            <Dropdown-Item @click.native="handleContextMenuCreate" style="color:green">新建项目</Dropdown-Item>
-            <Dropdown-Item @click.native="handleContextMenuEdit">编辑项目</Dropdown-Item>
-            <Dropdown-Item @click.native="handleContextMenuDelete" style="color: #ed4014">删除项目</Dropdown-Item>
+            <span v-if="isProjectNode">
+              <Dropdown-Item @click.native="handleContextMenuCreate" style="color:green">
+                <Icon type="ios-add" /> 新建项目</Dropdown-Item>
+              <Dropdown-Item @click.native="handleContextMenuEdit">
+                <Icon type="ios-create" /> 编辑项目</Dropdown-Item>
+              <Dropdown-Item @click.native="$refs.project.deletePorject" style="color: #ed4014">
+                <Icon type="ios-trash" /> 删除项目
+              </Dropdown-Item>
+            </span>
+            <span v-if="!isProjectNode">
+              <Dropdown-Item @click.native="deleteDS" style="color: #ed4014">删除服务</Dropdown-Item>
+            </span>
           </template>
         </Tree>
       </div>
+      
       <div slot="right" class="split-pane-right">
         <ul class="toolbar">
           <li style="float:right" @click="refreshConfig">
@@ -75,6 +88,7 @@
             </div>
           </li>
         </ul>
+
         <Tabs ref="tab" class="content mainTab" name="mainTab" :value="activeTab" :animated="false" type="card" @on-click="onTabClick" @on-tab-remove="onTabClose">
           <tab-pane label="首页" name="index" :index="0" :closable="false" tab="mainTab" style="padding: 0 10px">
             <h1> Welcome to DataService</h1>
@@ -91,16 +105,7 @@
       <Datasource @change_datasource="changeDatasource"></Datasource>
     </Modal>
 
-    <Modal title="编辑项目" v-model="project.isShowEditProjectWin" ok-text="保存" @on-ok="saveProject" cancel-text="" width="600">
-      <i-Form ref="editForm" :model="project.form.data" :rules="project.form.rules" :label-width="120" style="margin-right:100px">
-        <form-item label="项目名称" prop="name">
-          <i-Input v-model="project.form.data.name" placeholder="项目名称" />
-        </form-item>
-        <form-item label="项目简介" prop="content">
-          <i-Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="project.form.data.content" />
-        </form-item>
-      </i-Form>
-    </Modal>
+    <project ref="project" />
 
     <Modal v-model="createSelect" title="选择创建服务的类型" :footer-hide="true" width="500">
       在项目 <b>{{project.name}}{{project.parentServiceName ? '/' + project.parentServiceName : ''}}</b> 下新建……
