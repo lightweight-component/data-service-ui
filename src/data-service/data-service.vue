@@ -1,101 +1,22 @@
 <template>
   <div class="data-service">
-    <nav>
-      <div style="float:right;">
-        <user /> | 
-        <span v-if="enableDatasource">
-
-        数据源：<span>{{dataSource.name}}</span> |
-        </span>
-        
-         <a href="https://framework.ajaxjs.com" target="_blank">帮助</a> | <a @click="showAbout">关于</a>
-      </div>
-      <img src="~@/assets/icon.png" width="16" style="vertical-align: middle;" /> 数据服务 Data Service
-    </nav>
+    <topToolabar />
     <Split v-model="split1" style="border-top: 1px solid lightgray;">
       <div slot="left" class="split-pane-left">
-        <div class="search-panel ">
-          <i-Input suffix="ios-search" placeholder="搜索数据服务……" style="width: 90%" />
-        </div>
-        <Tree ref="treeCmp" :data="treeData" :load-data="loadTreeData" style="height: 93%;overflow-y: auto;margin-left: 10px;" 
-          @on-contextmenu="handleContextMenu" @on-select-change="openTab">
-          <template slot="contextMenu">
-            <span v-if="isProjectNode">
-              <Dropdown-Item @click.native="handleContextMenuCreate" style="color:green">
-                <Icon type="ios-add" /> 新建项目</Dropdown-Item>
-              <Dropdown-Item @click.native="handleContextMenuEdit">
-                <Icon type="ios-create" /> 编辑项目</Dropdown-Item>
-              <Dropdown-Item @click.native="$refs.project.deletePorject" style="color: #ed4014">
-                <Icon type="ios-trash" /> 删除项目
-              </Dropdown-Item>
-            </span>
-            <span v-if="!isProjectNode">
-              <Dropdown-Item @click.native="deleteDS" style="color: #ed4014">删除服务</Dropdown-Item>
-            </span>
-          </template>
-        </Tree>
+        <leftTree ref="leftTreeCmp" />
       </div>
       
       <div slot="right" class="split-pane-right">
-        <ul class="toolbar">
-          <li style="float:right" @click="refreshConfig">
-            <div>
-              <div class="icon">
-                <Icon type="md-refresh" size="25" style="color:darkcyan" />
-              </div>
-              <span class="text">刷新配置</span>
-            </div>
-          </li>
-          <li style="float:right" @click="dataSource.isShowDataSource=true" v-if="enableDatasource">
-            <div>
-              <div class="icon">
-                <Icon type="md-swap" size="25" style="color:blueviolet" />
-              </div>
-              <span class="text">数据源</span>
-            </div>
-          </li>
-          <li @click="createService">
-            <div>
-              <div class="icon">
-                <Icon type="md-add" size="25" style="color:green" />
-              </div>
-              <span class="text">新建服务</span>
-            </div>
-          </li>
-          <li @click="del($event)" :class="{disabled: activeTab == 'index'}">
-            <div>
-              <div class="icon">
-                <Icon type="md-close" size="25" style="color:red" />
-              </div>
-              <span class="text">删除</span>
-            </div>
-          </li>
-          <li @click="saveDML" :class="{disabled: activeTab == 'index'}">
-            <div>
-              <div class="icon">
-                <Icon type="ios-create" size="25" style="color:#f90" />
-              </div>
-              <span class="text">保存</span>
-            </div>
-          </li>
-
-          <li @click="refreshTree">
-            <div>
-              <div class="icon">
-                <Icon type="md-refresh" size="25" style="color:#f90" />
-              </div>
-              <span class="text">重新加载</span>
-            </div>
-          </li>
-        </ul>
+        <toolbar :active-tab="activeTab" />
 
         <Tabs ref="tab" class="content mainTab" name="mainTab" :value="activeTab" :animated="false" type="card" @on-click="onTabClick" @on-tab-remove="onTabClose">
           <tab-pane label="首页" name="index" :index="0" :closable="false" tab="mainTab" style="padding: 0 10px">
-            <h1> Welcome to DataService</h1>
+            <h1>Welcome to DataService</h1>
           </tab-pane>
-          <tab-pane v-for="tab in mainTabs" :key="tab.label" :label="tab.label" :name="tab.name" :index="tab.index" :closable="tab.closable" tab="mainTab" style="padding: 0 10px;">
+          <tab-pane v-for="tab in mainTabs" :key="tab.label" :index="tab.tabId" :label="tab.label" :name="tab.name" :closable="tab.closable" tab="mainTab" style="padding: 0 10px;">
             <!--服务配置-->
-            <info ref="info" :data="tab.data" />
+            <sInfo ref="sInfo" v-if="tab.data.type == 'SINGLE'" :main="$parent" :data="tab" />
+            <info  ref="info"  v-if="tab.data.type == 'CRUD'" :data="tab" />
           </tab-pane>
         </Tabs>
       </div>
@@ -141,7 +62,48 @@
 
 <script lang="ts" src="../data-service/data-service.ts"></script>
 
-<style lang="less" scoped src="../data-service/data-service.less"></style>
+<style lang="less" scoped>
+.data-service {
+    height: 100%;
+}
+
+.split-pane-right {
+    padding-left: 5px;
+}
+
+.content {
+    border-top: 1px solid lightgray;
+    padding: 1%;
+}
+
+.status-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+table.layout {
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    td {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+}
+
+.table-selector .ivu-table-body table {
+    font-size: 10.5pt;
+}
+
+.table-selector {
+
+    .ivu-page-next,
+    .ivu-page-prev {
+        padding-top: 7px;
+    }
+}
+</style>
 <style lang="less">
 .http-method {
   padding: 0px 2px;

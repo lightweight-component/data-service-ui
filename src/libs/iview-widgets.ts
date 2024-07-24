@@ -71,3 +71,27 @@ type TableListMethod = {
      */
     deleteInfo?(id: number, index: number): void;
 };
+
+/**
+ * Tab 组件
+ */
+type TabCmp = {
+    /**
+     * id
+     */
+    tabId: number,
+    label: string,
+
+    /**
+     * Name
+     */
+    name: string,
+    closable: boolean,
+    isCreate: boolean,
+
+    /**
+     * API 前缀
+     */
+    apiPrefix: string,
+    data: any
+}

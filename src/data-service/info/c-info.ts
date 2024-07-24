@@ -10,18 +10,18 @@ import 'codemirror/theme/base16-light.css'
 import './code-prettify';
 import tips from "@ajaxjs/ui/dist/iView-ext/tips.vue";
 import api from "./api.vue";
-import { copyToClipboard, isDev } from '@ajaxjs/util/dist/util/utils';
-import { formatSql } from './format-sql.js';
+import infoCommon from "./info-common";
 
 export default {
     components: { codemirror, tips, api },
+    mixins: [infoCommon],
     props: {
         data: {
             type: Object,
             required: true,
             default() {
                 return {
-                    data: {},
+                    data: {}
                 };
             },
         },
@@ -33,16 +33,13 @@ export default {
     data() {
         let data = this.data.data;
         let isSignle = data.type && data.type === 'SINGLE';
-        console.log(data)
 
         return {
             isSignle: isSignle,
             currentData: data,
             editorData: {
                 // 当前编辑器数据，根据不同类型的
-                type: isSignle ? "sql" : "infoSql",
-                isCustomSql: isSignle ? true : !!data.infoSql,
-                sql: isSignle ? data.sql : data.infoSql,
+                type: isSignle ? "sql" : "infoSql", isCustomSql: isSignle ? true : !!data.infoSql, sql: isSignle ? data.sql : data.infoSql
             },
             cmOption: {
                 tabSize: 4,
@@ -54,20 +51,8 @@ export default {
             },
         };
     },
-    mounted(): void {
-        setTimeout(() => this.$refs.cm.refresh(), 500);// 加载codemirror编辑器必须点击一下代码才能正常显示并且代码向左偏移
-    },
+
     methods: {
-        parentDir(): void {
-            let dir = this.data.id.split('/')[0];
-
-            if (dir.indexOf(':') != -1) {
-                let arr = dir.split(':');
-                dir = arr.pop();
-            }
-
-            return dir;
-        },
         togglePanel(): void {
             let config = this.$el.querySelector(".config");
 
@@ -75,35 +60,13 @@ export default {
                 config.style.height = "0";
             else config.style.height = "300px";
         },
-        copySql(): void {
-            copyToClipboard(this.editorData.sql);
-            this.$Message.success("复制 SQL 代码成功");
-        },
-        formatSql(): void {
-            this.editorData.sql = formatSql(this.editorData.sql, null);
-        },
-        getApiPrefix(): string {
-            let obj;
-
-            if (this.data.id.indexOf('/') != -1)
-                obj = this.data.parentNode.parentNode;
-            else
-                obj = this.data.parentNode;
-
-            let url = isDev() ? obj.apiPrefixDev : obj.apiPrefixProd;
-
-            if (!url.endsWith("/")) url += "/";
-            url += "common_api/";
-
-            return url;
-        },
 
         /**
          * 切换编辑器不同的类型
          * 
          * @param {String} type 
          */
-        setEditorData(type): void {
+        setEditorData(type: string): void {
             this.editorData.type = type;
             let sql = this.currentData[type];
 

@@ -23,7 +23,7 @@
         </i-input>
       </li>
       <!-- <li style="padding-top: 5px;">数据源： {{currentData.datasourceName}}</li> -->
-      <li v-if="!isSignle">
+      <li>
         <i-input placeholder="数据库表名" v-model="currentData.tableName" size="small">
           <span slot="prepend">数据库表名</span>
         </i-input>
@@ -42,10 +42,10 @@
           <i-input placeholder="Java Bean 的类全称" v-model="currentData.clzName">
             <span slot="prepend">Bean 类型</span>
           </i-input>
-          <br />
+<!--           <br />
           <i-input placeholder="逗号隔开多个标签" v-model="currentData.tags">
             <span slot="prepend">标签</span>
-          </i-input>
+          </i-input> -->
         </i-Col>
         <i-Col span="14">
           <i-input v-model="currentData.content" maxlength="200" show-word-limit type="textarea" :rows="4" placeholder="描述" />
@@ -85,12 +85,10 @@
         <i-Col span="8">
         </i-Col>
       </Row>
-      <br />
-      <i-Form>
-        <div style="margin-top: 15px;text-align: right;color:lightgray;">
-          id#{{currentData.id}} 创建人： admin 创建日期：{{currentData.createDate}} 修改人： admin 修改日期 {{currentData.updateDate}}
-        </div>
-      </i-Form>
+  
+      <div style="margin-top: 15px;text-align: right;color:gray;">
+        id#{{currentData.id}} 创建人： admin 创建日期：{{currentData.createDate}} 修改人： admin 修改日期 {{currentData.updateDate}}
+      </div>
     </div>
 
     <div class="main-edit-panel">
@@ -117,21 +115,16 @@
         </li>
       </ul>
 
-      <div :class="{'code-panel': true, 'all-width': 'SINGLE' === data.data.type}">
+      <div class="code-panel">
         <!-- SQL 源码编辑器-->
         <codemirror class="code-editor" ref="cm" v-model="editorData.sql" :options="cmOption" v-show="editorData.isCustomSql"></codemirror>
         <!--  {{editorData.sql}} -->
-        <div>
-          <span v-if="!isSignle" style="float: right;"><label><input type="checkbox" /> 启用</label></span>
-
+      
           <!-- 用不了 iview 的 RadioGroup -->
-          <span v-if="'SINGLE' != data.data.type">
-            <label><input type="radio" v-model="editorData.isCustomSql" :value="true" /> 自定义 SQL</label>&nbsp;&nbsp;
-            <label><input type="radio" v-model="editorData.isCustomSql" :value="false" /> 默认逻辑</label>
-          </span>
+          <label><input type="radio" v-model="editorData.isCustomSql" :value="true" /> 自定义 SQL</label>&nbsp;&nbsp;
+          <label><input type="radio" v-model="editorData.isCustomSql" :value="false" /> 默认逻辑</label>
           <br />
           <br />
-
           <span v-if="editorData.type == 'createSql' && !editorData.isCustomSql">
             <label><input type="checkbox" :value="true" /> 记录创建日期</label> &nbsp;&nbsp;
             <label><input type="checkbox" :value="true" /> 记录创建人</label> &nbsp;&nbsp;
@@ -173,7 +166,7 @@
 
           <div style="float:right">
             <a @click="formatSql">格式化</a> |
-            <a @click="copySql">复制</a>
+            <a @click="copySql">复制</a> | <label><input type="checkbox" /> 启用</label>
           </div>
 
           <br />
@@ -185,13 +178,11 @@
             <br />
             <api :api-prefix="getApiPrefix()" :page="true" v-if="editorData.type == 'listSql'" />
           </div>
-        </div>
       </div>
     </div>
-
   </div>
 </template>
 
-<script lang="ts" src="./info.ts"></script>
+<script lang="ts" src="./c-info.ts"></script>
 
 <style lang="less" scoped src="./info.less"></style>

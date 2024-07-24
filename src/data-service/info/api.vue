@@ -1,81 +1,53 @@
 <template>
   <div class="api">
-    <span :class="'httpMethod '+getHttpMethod()" style="font-weight: bold;">
-      {{getHttpMethod()}}
+    <span :class="'httpMethod ' + getHttpMethod()" style="font-weight: bold">
+      {{ getHttpMethod() }}
     </span>
-    {{getUrl()}}
-    <a :href="getUrl()" target="_blank" title="打开连接">&#x1f517;</a>&nbsp;
+    {{apiUrl}}
+    <a :href="apiUrl" target="_blank" title="打开连接">&#x1f517;</a>&nbsp;
     <a href="javascript:void(0)" @click="copy" title="复制">📄</a>&nbsp;
-    <a href="javascript:alert('TODO')" style="text-decoration:underline;">测试</a>
+    <a href="javascript:alert('TODO')" style="text-decoration: underline"
+      >测试</a
+    >
   </div>
 </template>
 <script>
-import { copyToClipboard } from '@ajaxjs/util/dist/util/utils';
+import { copyToClipboard } from "@ajaxjs/util/dist/util/utils";
 
 export default {
   props: {
-    page: {
-      type: Boolean,
-      require: false
-    },
-    apiPrefix: {
-      type: String,
-      require: false
-    }
+    page: { type: Boolean, require: false },
+    apiUrl: { type: String,  require: true }
   },
   data() {
     return {
-      httpMethod: this.$parent.editorData.type
+      httpMethod: this.$parent.editorData
+        ? this.$parent.editorData.type
+        : "GET",
     };
   },
   methods: {
-    getUrl() {
-      let data = this.$parent.data;
-      let url = data.data.namespace;
-
-        // debugger;
-      if (data.parentNode.apiPrefixDev) {
-        // project node
-      } else 
-        url = data.parentNode.data.namespace + "/" + url;
-      
-      url = this.apiPrefix + url;
-
-      if (this.page) url += "/page";
-      else {
-        switch (this.$parent.editorData.type) {
-          case "info":
-          case "delete":
-            url += "/{id}";
-            break;
-          case "list":
-            url += "/list";
-            break;
-          case "create":
-          case "update":
-        }
-      }
-
-      return url;
-    },
     copy() {
-      copyToClipboard(this.getUrl());
+      copyToClipboard(this.apiUrl);
       this.$Message.success("复制成功");
     },
     getHttpMethod() {
-      switch (this.$parent.editorData.type) {
-        case "info":
-        case "list":
-          return "GET";
-        case "create":
-          return "POST";
-        case "update":
-          return "PUT";
-        case "delete":
-          return "DELETE";
+      if (this.$parent.editorData)
+        switch (this.$parent.editorData.type) {
+          case "info":
+          case "list":
+            return "GET";
+          case "create":
+            return "POST";
+          case "update":
+            return "PUT";
+          case "delete":
+            return "DELETE";
+        }
+      else {
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

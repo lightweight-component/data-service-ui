@@ -22,7 +22,7 @@ export default {
                     { required: true, message: 'API 前缀-生产环境 不能为空', trigger: 'blur' }
                 ],
             },
-            data: {}
+            data: {} as DataService_Porject
         };
     },
     methods: {

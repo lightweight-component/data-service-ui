@@ -9,15 +9,7 @@ export default {
     data() {
         return {
             treeData: [],
-            isProjectNode: false,
-            project: {
-                name: '',
-                parentServiceName: '', // 如果选择了父服务节点，显示其名字
-                parentId: -1,
-                parentNode: null,
-                treeData: [
-                ],
-            }
+            isProjectNode: false, // 鼠标右键菜单用的
         };
     },
 
@@ -25,76 +17,17 @@ export default {
         this.refreshTree();
     },
     methods: {
-        handleContextMenuEdit(): void {
-            this.$refs.project.update();
-        },
-
-        handleContextMenuCreate(): void {
-            this.$refs.project.create();
-        },
-        handleContextMenu(data): void {
+        handleContextMenu(data: any): void {
             if (!data.parentNode) {// it's a project
                 this.isProjectNode = true;
                 let { id, name, content, apiPrefixDev, apiPrefixProd, defaultConfig } = data.projectData;
 
-                this.$refs.project.$refs['editForm'].resetFields();
-                this.$refs.project.data = { id, name, content, apiPrefixDev, apiPrefixProd, defaultConfig };
+                let project = this.$parent.$parent.$refs.project;
+                project.$refs['editForm'].resetFields();
+                project.data = { id, name, content, apiPrefixDev, apiPrefixProd, defaultConfig};
             } else
                 this.isProjectNode = false;
         },
-
-        deleteDS(): void {
-            this.$Modal.confirm({
-                title: '确定删除吗？',
-                content: `<p>删除<b>工程 ${this.$refs.project.data.name}</b> 以及其所有的<b>命令</b>？</p>`,
-                onOk: () => {
-                    xhr_del(`${window.config.dsApiRoot}/admin/project/${this.$refs.project.data.id}`, (j: RepsonseResult) => {
-                        if (j.status) {
-                            this.$Message.info('删除成功');
-                            this.loadTreeProejct();
-                        }
-                    });
-                }
-            });
-        },
-
-        /**
-         * 获取当前树选中的工程
-         */
-        getSelectedProject(): string {
-            let selectedNodes: any[] = this.$refs.treeCmp.getSelectedNodes();
-
-            if (selectedNodes.length === 0) {
-                this.$Message.warning('请先选择一个树节点，<br >选择一个项目或者一个服务。');
-                return null;
-            }
-
-            let selectedNode = selectedNodes[0];
-            let project = selectedNode.parentNode;
-            this.project.parentServiceName = '';
-            this.project.parentId = -1;
-
-            if (project) {
-                if (project.parentNode) { // sub node
-                    this.project.parentServiceName = project.data.name;
-                    this.project.parentId = project.data.id;
-                    this.project.parentNode = project.data;
-                    project = project.parentNode;
-                } else { // level 1 node
-                    this.project.parentServiceName = selectedNode.data.name;
-                    this.project.parentId = selectedNode.data.id;
-                    this.project.parentNode = selectedNode;
-                }
-            } else { // project node
-                project = selectedNode.projectData;
-                this.project.parentNode = project;
-            }
-
-            this.project.name = project.name;
-
-            return isDebug() ? project.apiPrefixDev : project.apiPrefixProd;
-        },
-
         /**
          * 更新根节点的数据
          */
@@ -108,7 +41,7 @@ export default {
                 if (j.status) {
                     let data: DS_TreeNode_Project[] = [];
 
-                    j.data.forEach(project => {
+                    j.data.forEach((project: DataService_Porject) => {
                         let projectTreeNode: DS_TreeNode_Project = {
                             title: project.name,
                             loading: false,
